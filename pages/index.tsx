@@ -1,18 +1,31 @@
-import type { NextPage } from "next";
 import Link from "next/link";
+import Threads from "~/components/threads";
+import { fetchData } from "~/lib/data";
 
-const Home: NextPage = () => {
-  // const { data, error } = useSWR<Thread>("/api/thread/somethread", fetcher);
+export const getStaticProps = async () => {
+  const { threads } = await fetchData();
 
-  // if (error) return <div>failed to load</div>;
-  // if (!data) return <div>loading...</div>;
+  return {
+    props: {
+      threads,
+    },
+  };
+};
 
+const Home = (data: { threads: Thread[] }) => {
   return (
     <div>
-      <Link href="/thread/somethread">
-        <a>to some thread</a>
-      </Link>
+      <Threads threads={data.threads} />
     </div>
+    // <div>
+    //   {data.threads.map((thread) => (
+    //     <div key={thread.id}>
+    //       <Link href={`/threads/${thread.id}`}>
+    //         <a>{thread.title}</a>
+    //       </Link>
+    //     </div>
+    //   ))}
+    // </div>
   );
 };
 

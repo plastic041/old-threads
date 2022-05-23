@@ -1,19 +1,13 @@
 import { faker } from "@faker-js/faker";
 import { nanoid } from "nanoid";
+import { readFile } from "fs/promises";
 
 class Data {
-  static user(): User {
-    return {
-      id: nanoid(),
-      joinedAt: faker.date.recent().toISOString(),
-    };
-  }
-
   static post(number: number): Post {
     return {
       id: nanoid(),
       number,
-      user: Data.user(),
+      userId: nanoid(),
       body: faker.lorem.paragraph(),
       createdAt: faker.date.recent().toISOString(),
     };
@@ -28,5 +22,14 @@ class Data {
     };
   }
 }
+
+export const fetchData = async () => {
+  const filePath = "./resources/data.json";
+  const file = await readFile(filePath, "utf-8");
+  const data: {
+    threads: Thread[];
+  } = JSON.parse(file);
+  return data;
+};
 
 export default Data;

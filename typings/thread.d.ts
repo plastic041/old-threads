@@ -7,12 +7,12 @@ type Thread = {
 type Post = {
   id: string;
   number: number;
-  user: User;
   body: string;
   createdAt: string;
+  userId: string;
 };
 
-type User = {
-  id: string;
-  joinedAt: string;
-};
+// type User = {
+//   id: string;
+//   joinedAt: string;
+// };
