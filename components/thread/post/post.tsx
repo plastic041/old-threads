@@ -21,7 +21,15 @@ const PostContainer = ({ post }: PostContainerProps) => {
         </Link>
         <span className="text-teal-600">{createdAt}</span>
       </div>
-      <p className="text-teal-900">{post.body}</p>
+      <p
+        className="text-teal-900"
+        style={{
+          wordBreak: "keep-all",
+          overflowWrap: "break-word",
+        }}
+      >
+        {post.body}
+      </p>
     </article>
   );
 };

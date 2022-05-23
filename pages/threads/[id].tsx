@@ -35,7 +35,6 @@ const Home = ({ thread }: { thread: Thread }) => {
   return (
     <>
       <Header thread={thread} />
-      <div className="h-4" />
       <Thread thread={thread} />
       <ScrollButtons />
     </>

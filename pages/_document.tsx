@@ -4,7 +4,7 @@ export default function Document() {
   return (
     <Html lang="ko">
       <Head />
-      <body className="bg-teal-200">
+      <body className="overflow-y-scroll bg-teal-200">
         <Main />
         <NextScript />
       </body>
