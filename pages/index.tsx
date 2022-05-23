@@ -1,9 +1,16 @@
-import Link from "next/link";
 import Threads from "~/components/threads";
 import { fetchData } from "~/lib/data";
 
 export const getStaticProps = async () => {
-  const { threads } = await fetchData();
+  const data = await fetchData();
+  const threads = data.threads.map((thread) => {
+    const createdAt = thread.posts[0].createdAt;
+    return {
+      createdAt,
+      title: thread.title,
+      id: thread.id,
+    };
+  });
 
   return {
     props: {
@@ -12,20 +19,13 @@ export const getStaticProps = async () => {
   };
 };
 
-const Home = (data: { threads: Thread[] }) => {
+const Home = (data: {
+  threads: { createdAt: string; title: string; id: string }[];
+}) => {
   return (
     <div>
       <Threads threads={data.threads} />
     </div>
-    // <div>
-    //   {data.threads.map((thread) => (
-    //     <div key={thread.id}>
-    //       <Link href={`/threads/${thread.id}`}>
-    //         <a>{thread.title}</a>
-    //       </Link>
-    //     </div>
-    //   ))}
-    // </div>
   );
 };
 

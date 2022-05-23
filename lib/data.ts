@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { nanoid } from "nanoid";
-import { readFile } from "fs/promises";
+import { readFile, writeFile } from "fs/promises";
 
 class Data {
   static post(number: number): Post {
@@ -30,6 +30,11 @@ export const fetchData = async () => {
     threads: Thread[];
   } = JSON.parse(file);
   return data;
+};
+
+export const updateData = async (data: object) => {
+  const filePath = "./resources/data.json";
+  await writeFile(filePath, JSON.stringify(data));
 };
 
 export default Data;

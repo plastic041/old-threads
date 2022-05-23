@@ -15,7 +15,7 @@ const ThreadContainer = ({ thread }: ThreadContainerProps) => {
         ))}
       </ol>
       <div className="border-b border-dashed border-black" />
-      <TextInput />
+      <TextInput id={thread.id} />
     </main>
   );
 };

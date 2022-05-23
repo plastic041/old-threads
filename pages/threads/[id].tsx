@@ -3,13 +3,11 @@ import Thread from "~/components/thread";
 import Header from "~/components/header";
 import ScrollButtons from "~/components/scroll-buttons";
 import { fetchData } from "~/lib/data";
-import TextInput from "~/components/text-input";
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const { id } = context.params as unknown as { id: string };
   const { threads } = await fetchData();
   const thread = threads.find((thread) => thread.id === id);
-  console.log(id);
 
   return {
     props: {
