@@ -1,6 +1,4 @@
-import { nanoid } from "nanoid";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { updateData } from "~/lib/data";
 import supabase from "~/lib/supabase";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -27,8 +25,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           if (postsError) return res.status(500).json({ postsError });
 
           const postsSorted = posts.sort((a, b) => {
-            if (a.created_at < b.created_at) return 1;
-            if (a.created_at > b.created_at) return -1;
+            if (a.number < b.number) return -1;
+            if (a.number > b.number) return 1;
             return 0;
           });
 
@@ -42,25 +40,35 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         get();
         break;
       }
+
       case "POST": {
-        fetchData().then((data) => {
-          const body = req.body;
-          const length = data.threads.find((thread) => thread.id === id)?.posts
-            .length;
-          const newNumber = length ? length + 1 : 1;
-          data.threads
-            .find((thread) => thread.id === id)
-            ?.posts.push({
-              body: body.body,
-              createdAt: new Date().toISOString(),
-              id: nanoid(),
-              number: newNumber,
-              userId: nanoid(),
-            });
-          updateData(data);
-          res.status(200).json({ status: "success" });
+        const post = async () => {
+          const body: {
+            thread_id: string;
+            body: string;
+            username: string;
+          } = req.body;
+
+          const { data: thread, error: threadError } = await supabase
+            .from<{ Post: { thread_id: number }[] }>("Thread")
+            .select("Post(thread_id)")
+            .limit(1)
+            .single();
+
+          if (threadError) return res.status(500).json({ threadError });
+
+          const { data: post, error: postError } = await supabase
+            .from<Post>("Post")
+            .insert({ ...body, number: thread.Post.length + 1 });
+
+          if (postError) return res.status(500).json({ postError });
+
+          res.status(201).json({
+            post,
+          });
           resolve();
-        });
+        };
+        post();
         break;
       }
       default:
