@@ -4,6 +4,9 @@
     "eslint:recommended",
     "plugin:react-hooks/recommended"
   ],
+  "rules": {
+    "no-unused-vars": "warn"
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx"],

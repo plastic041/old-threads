@@ -7,6 +7,6 @@ describe("makeTitle", () => {
       title: "some kind of long title I think",
       posts: [],
     };
-    expect(makeTitle(thread)).toBe("test_123456");
+    expect(makeTitle(thread)).toBe("some-kind-of-long-ti_RA4eesoK");
   });
 });
