@@ -2,24 +2,6 @@ import useSWR from "swr";
 import Threads from "~/components/threads";
 import fetcher from "~/lib/fetcher";
 
-// export const getStaticProps = async () => {
-//   const data = await fetchData();
-//   const threads = data.threads.map((thread) => {
-//     const createdAt = thread.posts[0].createdAt;
-//     return {
-//       createdAt,
-//       title: thread.title,
-//       id: thread.id,
-//     };
-//   });
-
-//   return {
-//     props: {
-//       threads,
-//     },
-//   };
-// };
-
 const Home = () => {
   const { data, error } = useSWR<
     {
