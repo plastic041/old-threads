@@ -10,8 +10,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             .from("Thread")
             .select("*");
 
-          console.log(threads);
-
           if (error) return res.status(500).json({ error });
 
           res.status(200).json(threads);

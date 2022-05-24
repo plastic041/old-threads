@@ -1,14 +1,21 @@
 import Router from "next/router";
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
+import useSWR, { useSWRConfig } from "swr";
 import { getUsername } from "~/lib/username";
+import fetcher from "~/lib/fetcher";
 
 type TextInputProps = {
   tid: string;
 };
 const TextInput = ({ tid }: TextInputProps) => {
+  const { mutate } = useSWRConfig();
+  const url = `/api/threads/${tid}`;
+
+  const { data } = useSWR<Thread>(url, fetcher) as { data: Thread };
+
   const [text, setText] = useState("");
   const [isSending, setIsSending] = useState(false);
-  const [isError, setIsError] = useState(true);
+  const [isError, setIsError] = useState(false);
   const [isReloading, setIsReloading] = useState(false);
   const hasText = text.trim() !== "";
   const shouldButtonDisabled = !hasText || isSending;
@@ -34,7 +41,26 @@ const TextInput = ({ tid }: TextInputProps) => {
         }),
       })
         .then(() => {
-          Router.reload();
+          const newThread = {
+            id: data.id,
+            title: data.title,
+            posts: [
+              ...data.posts,
+              {
+                body: text,
+                username: getUsername(tid),
+                created_at: new Date().toISOString(),
+                number: data.posts.length + 1,
+                thread_id: tid,
+                id: "",
+              },
+            ],
+          };
+          setText("");
+          setIsSending(false);
+          mutate<Thread>(url, newThread, {
+            optimisticData: newThread,
+          });
         })
         .catch(() => {
           setIsError(true);
@@ -67,36 +93,40 @@ const TextInput = ({ tid }: TextInputProps) => {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-2">
       <textarea
-        className="h-40 w-full resize-none rounded border-none bg-white p-4 outline-none outline-4 focus:outline focus:outline-2 focus:outline-teal-500"
+        className={`h-40 w-full resize-none rounded border-none bg-white p-4 outline-none outline-4 focus:outline focus:outline-2 focus:outline-teal-500 ${
+          isSending ? "opacity-50" : ""
+        }`}
         onChange={onChange}
         onKeyDown={onKeyDown}
         value={text}
         maxLength={512}
+        disabled={isSending}
       />
-      <div className="flex flex-row justify-end">
+      <div className="flex flex-row items-center justify-end">
         {isError && (
-          <div className="flex flex-grow flex-col items-start text-red-600">
-            <span>문제가 발생했습니다 ＞︿＜&nbsp;</span>
+          <div className="flex flex-grow flex-col items-start text-sm text-red-600">
+            <span>문제가 발생했습니다 ;︿;&nbsp;</span>
             <button
-              className="animate-pulse text-blue-600 hover:text-blue-400"
+              className="animate-pulse whitespace-pre text-left text-blue-600 hover:text-blue-400"
               onClick={handleCopyReload}
             >
               {isReloading
-                ? "내용을 복사했어요. 페이지를 다시 불러옵니다.."
+                ? `내용을 클립보드에 복사했어요.
+페이지를 다시 불러옵니다..`
                 : "작성중인 내용 복사하고 새로고침"}
             </button>
           </div>
         )}
         <button
           type="submit"
-          className={`w-20 ${
+          className={`flex h-16 w-24 items-center justify-center ${
             hasText
               ? "cursor-pointer bg-white hover:bg-teal-100"
               : "bg-teal-100 text-teal-300"
           }`}
           disabled={shouldButtonDisabled}
         >
-          작성
+          <span>{isSending ? "작성 중..." : "작성"}</span>
         </button>
       </div>
     </form>

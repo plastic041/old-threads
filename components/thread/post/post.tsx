@@ -7,21 +7,24 @@ type PostContainerProps = {
 const PostContainer = ({ post }: PostContainerProps) => {
   const createdAt = dayjs(post.created_at)
     .locale("ko")
-    .format("YYYY-MM-DD a HH시 mm분");
+    .format("YYYY-MM-DD a hh:mm");
+
   return (
     <article className="flex flex-col rounded bg-white p-4">
       <div className="flex flex-row gap-2">
         <Link href={`#${post.number}`}>
-          <a className="text-teal-500 hover:underline" id={String(post.number)}>
+          <a
+            className="whitespace-pre text-teal-500 hover:underline"
+            id={String(post.number)}
+          >
             &gt;&gt;{post.number}
           </a>
         </Link>
-        <span className="text-teal-600">{createdAt}</span>
-        <span>by</span>
-        <span className="text-teal-600">{post.username}</span>
+        <span className="text-teal-700">{post.username}</span>
+        <span className="text-teal-700">{createdAt}</span>
       </div>
       <p
-        className="text-teal-900"
+        className="whitespace-pre-wrap text-teal-900"
         style={{
           wordBreak: "keep-all",
           overflowWrap: "break-word",
