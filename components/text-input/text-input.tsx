@@ -6,8 +6,14 @@ const TextInput = ({ id }: { id: string }) => {
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setValue(e.currentTarget.value);
   };
+  const [isSending, setIsSending] = useState(false);
+  const isWriting = value.trim() !== "";
+
   const handleSend = () => {
+    if (value.trim() === "") return;
     const send = async () => {
+      setIsSending(true);
+
       fetch(`/api/threads/${id}`, {
         method: "POST",
         headers: {
@@ -28,8 +34,16 @@ const TextInput = ({ id }: { id: string }) => {
         onChange={onChange}
         value={value}
       />
-      <button className="w-20 bg-white" onClick={handleSend}>
-        send
+      <button
+        className={`w-20 ${
+          isWriting
+            ? "cursor-pointer bg-white hover:bg-teal-100"
+            : "bg-teal-100 text-teal-300"
+        }`}
+        onClick={handleSend}
+        disabled={isSending || !isWriting}
+      >
+        작성
       </button>
     </div>
   );
