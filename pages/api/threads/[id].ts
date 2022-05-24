@@ -50,8 +50,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           } = req.body;
 
           const { data: thread, error: threadError } = await supabase
-            .from<{ Post: { thread_id: number }[] }>("Thread")
-            .select("Post(thread_id)")
+            .from<{
+              title: string;
+              category_id: string;
+              created_at: string;
+              Post: { thread_id: number }[];
+            }>("Thread")
+            .select("title, category_id, Post(thread_id)")
             .limit(1)
             .single();
 
@@ -64,7 +69,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           if (postError) return res.status(500).json({ postError });
 
           res.status(201).json({
-            post,
+            id: body.thread_id,
+            title: thread.title,
+            category_id: thread.category_id,
+            created_at: thread.created_at,
+            posts: post,
           });
           resolve();
         };

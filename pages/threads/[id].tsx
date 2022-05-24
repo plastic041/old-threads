@@ -9,10 +9,11 @@ const Home = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { data, error } = useSWR<Thread>(
-    id ? `/api/threads/${id}` : null,
-    fetcher
-  );
+  const { data, error } = useSWR<
+    Thread & {
+      posts: Post[];
+    }
+  >(id ? `/api/threads/${id}` : null, fetcher);
 
   if (error) return <div>failed to load</div>;
   if (!data) return <div>loading...</div>;

@@ -1,7 +1,8 @@
 type Thread = {
   id: string;
-  posts: Post[];
   title: string;
+  category_id: string;
+  created_at: string;
 };
 
 type Post = {

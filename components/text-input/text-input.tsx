@@ -11,7 +11,7 @@ const TextInput = ({ tid }: TextInputProps) => {
   const { mutate } = useSWRConfig();
   const url = `/api/threads/${tid}`;
 
-  const { data } = useSWR<Thread>(url, fetcher) as { data: Thread };
+  const { data } = useSWR(url, fetcher) as { data: Thread & { posts: Post[] } };
 
   const [text, setText] = useState("");
   const [isSending, setIsSending] = useState(false);
@@ -28,6 +28,25 @@ const TextInput = ({ tid }: TextInputProps) => {
     if (!hasText) return;
     const send = async () => {
       setIsSending(true);
+      const newThread = {
+        ...data,
+        posts: [
+          ...data.posts,
+          {
+            body: text,
+            username: getUsername(tid),
+            created_at: new Date().toISOString(),
+            number: data.posts.length + 1,
+            thread_id: tid,
+            id: "",
+          },
+        ],
+      };
+      mutate<
+        Thread & {
+          posts: Post[];
+        }
+      >(url, newThread, false);
 
       fetch(`/api/threads/${tid}`, {
         method: "POST",
@@ -41,26 +60,8 @@ const TextInput = ({ tid }: TextInputProps) => {
         }),
       })
         .then(() => {
-          const newThread = {
-            id: data.id,
-            title: data.title,
-            posts: [
-              ...data.posts,
-              {
-                body: text,
-                username: getUsername(tid),
-                created_at: new Date().toISOString(),
-                number: data.posts.length + 1,
-                thread_id: tid,
-                id: "",
-              },
-            ],
-          };
           setText("");
           setIsSending(false);
-          mutate<Thread>(url, newThread, {
-            optimisticData: newThread,
-          });
         })
         .catch(() => {
           setIsError(true);

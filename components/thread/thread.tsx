@@ -2,7 +2,9 @@ import TextInput from "~/components/text-input";
 import PostContainer from "./post";
 
 type ThreadContainerProps = {
-  thread: Thread;
+  thread: Thread & {
+    posts: Post[];
+  };
 };
 const ThreadContainer = ({ thread }: ThreadContainerProps) => {
   return (
