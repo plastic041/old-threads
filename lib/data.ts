@@ -9,7 +9,7 @@ class Data {
       number,
       userId: nanoid(),
       body: faker.lorem.paragraph(),
-      createdAt: faker.date.recent().toISOString(),
+      created_at: faker.date.recent().toISOString(),
     };
   }
 

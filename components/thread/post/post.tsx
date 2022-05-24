@@ -1,12 +1,11 @@
 import dayjs from "dayjs";
 import Link from "next/link";
-import "dayjs/locale/ko";
 
 type PostContainerProps = {
   post: Post;
 };
 const PostContainer = ({ post }: PostContainerProps) => {
-  const createdAt = dayjs(post.createdAt)
+  const createdAt = dayjs(post.created_at)
     .locale("ko")
     .format("YYYY-MM-DD a HH시 mm분");
   return (

@@ -1,19 +1,52 @@
 import { nanoid } from "nanoid";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { fetchData, updateData } from "~/lib/data";
+import { updateData } from "~/lib/data";
+import supabase from "~/lib/supabase";
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  return new Promise<void>((resolve) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  await new Promise<void>((resolve) => {
     const { id } = req.query as { id: string };
 
     switch (req.method) {
       case "GET": {
-        fetchData().then((data) => {
-          const thread = data.threads.find((t) => t.id === id);
-          res.status(200).json(thread);
+        const get = async () => {
+          const { data: thread, error: threadError } = await supabase
+            .from<Thread>("Thread")
+            .select("title")
+            .eq("id", id)
+            .limit(1)
+            .single();
+
+          if (threadError) return res.status(500).json({ threadError });
+
+          const { data: posts, error: postsError } = await supabase
+            .from<Post>("Post")
+            .select("*")
+            .eq("thread_id", id);
+
+          if (postsError) return res.status(500).json({ postsError });
+
+          const postsSorted = posts.sort((a, b) => {
+            if (a.created_at < b.created_at) return 1;
+            if (a.created_at > b.created_at) return -1;
+            return 0;
+          });
+
+          res.status(200).json({
+            id,
+            posts: postsSorted,
+            title: thread.title,
+          });
           resolve();
-        });
+        };
+        get();
         break;
+        // fetchData().then((data) => {
+        //   const thread = data.threads.find((t) => t.id === id);
+        //   res.status(200).json(thread);
+        //   resolve();
+        // });
+        // break;
       }
       case "POST": {
         fetchData().then((data) => {

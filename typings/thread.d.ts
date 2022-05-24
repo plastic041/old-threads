@@ -8,8 +8,9 @@ type Post = {
   id: string;
   number: number;
   body: string;
-  createdAt: string;
-  userId: string;
+  created_at: string;
+  username: string;
+  thread_id: string;
 };
 
 // type User = {

@@ -1,20 +1,23 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { fetchData } from "~/lib/data";
+import supabase from "~/lib/supabase";
 
-const handler = (req: NextApiRequest, res: NextApiResponse) => {
-  return new Promise<void>((resolve) => {
+const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  await new Promise<void>((resolve) => {
     switch (req.method) {
       case "GET": {
-        fetchData().then((data) => {
-          const threads = data.threads.map((thread) => ({
-            createdAt: thread.posts[0].createdAt,
-            title: thread.title,
-            id: thread.id,
-          }));
+        const get = async () => {
+          const { data: threads, error } = await supabase
+            .from("Thread")
+            .select("*");
+
+          console.log(threads);
+
+          if (error) return res.status(500).json({ error });
+
           res.status(200).json(threads);
-          res.end();
           resolve();
-        });
+        };
+        get();
         break;
       }
       default:

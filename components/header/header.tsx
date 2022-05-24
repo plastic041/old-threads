@@ -5,6 +5,7 @@ type HeaderProps = {
   thread: Thread;
 };
 const Header = ({ thread }: HeaderProps) => {
+  console.log(thread.title);
   return (
     <header className="flex flex-row items-center gap-4 bg-white px-4 py-2">
       <nav>
@@ -14,7 +15,7 @@ const Header = ({ thread }: HeaderProps) => {
           </a>
         </Link>
       </nav>
-      <h1 className="text-[32px]">{thread.title}</h1>
+      <h1 className="text-[16px] md:text-[32px]">{thread.title}</h1>
     </header>
   );
 };
