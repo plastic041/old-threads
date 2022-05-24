@@ -44,24 +44,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       case "POST": {
         const post = async () => {
           const body: {
-            thread_id: string;
+            thread_id: number;
             body: string;
             username: string;
           } = req.body;
 
           const { data: thread, error: threadError } = await supabase
-            .from<{
-              title: string;
-              category_id: string;
-              created_at: string;
-              Post: { thread_id: number }[];
-            }>("Thread")
+            .from<
+              Thread & {
+                Post: { thread_id: number }[];
+              }
+            >("Thread")
             .select("title, category_id, Post(thread_id)")
+            .eq("id", body.thread_id)
             .limit(1)
             .single();
 
           if (threadError) return res.status(500).json({ threadError });
 
+          // 포스트 생성
           const { data: post, error: postError } = await supabase
             .from<Post>("Post")
             .insert({ ...body, number: thread.Post.length + 1 });

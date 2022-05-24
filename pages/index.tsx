@@ -1,8 +1,12 @@
-import useSWR from "swr";
+import AddThreadButton from "~/components/add-thread-button";
+import AddThreadModal from "~/components/add-thread";
 import Threads from "~/components/threads";
 import fetcher from "~/lib/fetcher";
+import useSWR from "swr";
+import { useState } from "react";
 
 const Home = () => {
+  const [isAddThreadModalOpen, setIsAddThreadModalOpen] = useState(false);
   const { data, error } = useSWR<
     {
       createdAt: string;
@@ -16,7 +20,12 @@ const Home = () => {
 
   return (
     <div>
+      <AddThreadButton setModalState={setIsAddThreadModalOpen} />
       <Threads threads={data} />
+      <AddThreadModal
+        opened={isAddThreadModalOpen}
+        setModalState={setIsAddThreadModalOpen}
+      />
     </div>
   );
 };

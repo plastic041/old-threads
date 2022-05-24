@@ -1,17 +1,17 @@
 type Thread = {
-  id: string;
+  id: number;
   title: string;
-  category_id: string;
+  category_id: number;
   created_at: string;
 };
 
 type Post = {
-  id: string;
+  id: number;
   number: number;
   body: string;
   created_at: string;
   username: string;
-  thread_id: string;
+  thread_id: number;
 };
 
 // type User = {

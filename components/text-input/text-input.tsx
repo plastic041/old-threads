@@ -1,11 +1,11 @@
 import Router from "next/router";
 import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
-import { getUsername } from "~/lib/username";
+import { getUsername, makeUsername } from "~/lib/username";
 import fetcher from "~/lib/fetcher";
 
 type TextInputProps = {
-  tid: string;
+  tid: number;
 };
 const TextInput = ({ tid }: TextInputProps) => {
   const { mutate } = useSWRConfig();
@@ -34,11 +34,11 @@ const TextInput = ({ tid }: TextInputProps) => {
           ...data.posts,
           {
             body: text,
-            username: getUsername(tid),
+            username: makeUsername(getUsername(), tid),
             created_at: new Date().toISOString(),
             number: data.posts.length + 1,
             thread_id: tid,
-            id: "",
+            id: 0,
           },
         ],
       };
@@ -56,7 +56,7 @@ const TextInput = ({ tid }: TextInputProps) => {
         body: JSON.stringify({
           body: text,
           thread_id: tid,
-          username: getUsername(tid),
+          username: makeUsername(getUsername(), tid),
         }),
       })
         .then(() => {
