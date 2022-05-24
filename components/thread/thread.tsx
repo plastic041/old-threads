@@ -6,7 +6,7 @@ type ThreadContainerProps = {
 };
 const ThreadContainer = ({ thread }: ThreadContainerProps) => {
   return (
-    <main className="mx-auto flex w-full flex-col gap-4 py-2 px-2 md:px-64 2xl:px-40">
+    <main className="mx-auto flex w-full flex-col gap-4 py-2 px-2 md:w-[512px] md:px-0">
       <ol className="flex list-none flex-col gap-4">
         {thread.posts.map((post) => (
           <li key={post.id}>

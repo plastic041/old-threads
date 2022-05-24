@@ -17,6 +17,8 @@ const PostContainer = ({ post }: PostContainerProps) => {
           </a>
         </Link>
         <span className="text-teal-600">{createdAt}</span>
+        <span>by</span>
+        <span className="text-teal-600">{post.username}</span>
       </div>
       <p
         className="text-teal-900"

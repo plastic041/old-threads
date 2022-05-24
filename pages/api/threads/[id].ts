@@ -41,12 +41,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         };
         get();
         break;
-        // fetchData().then((data) => {
-        //   const thread = data.threads.find((t) => t.id === id);
-        //   res.status(200).json(thread);
-        //   resolve();
-        // });
-        // break;
       }
       case "POST": {
         fetchData().then((data) => {
