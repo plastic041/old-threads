@@ -6,7 +6,7 @@
     "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "plugins": ["@typescript-eslint"],
+  "plugins": ["@typescript-eslint", "testing-library"],
   "rules": {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": "warn"
@@ -28,7 +28,11 @@
     {
       "files": ["*.test.ts", "*.test.tsx"],
       "plugins": ["jest"],
-      "extends": ["plugin:jest/recommended", "plugin:jest/style"]
+      "extends": [
+        "plugin:jest/recommended",
+        "plugin:jest/style",
+        "plugin:testing-library/react"
+      ]
     }
   ]
 }
