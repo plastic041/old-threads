@@ -7,10 +7,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     switch (req.method) {
       case "GET": {
         const get = async () => {
-          // const { data: threads, error: threadsError } = await supabase
-          //   .from("Thread")
-          //   .select("*");
-          // if (threadsError) return res.status(500).json({ error: threadsError });
           const { data: category, error: categoryError } = await supabase
             .from("Category")
             .select("name, id, Thread(id, title)");
@@ -32,12 +28,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             title: string;
             body: string;
             username: string;
+            category: number;
           };
           const { data: thread, error: threadError } = await supabase
             .from<Thread>("Thread")
             .insert({
               title: body.title,
-              category_id: 1,
+              category_id: body.category,
             })
             .limit(1)
             .single();
