@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { ChangeEvent, FormEvent, KeyboardEvent, useState } from "react";
+import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { getUsername, makeUsername } from "~/lib/username";
 import fetcher from "~/lib/fetcher";
@@ -120,10 +120,10 @@ const TextInput = ({ tid }: TextInputProps) => {
         )}
         <button
           type="submit"
-          className={`flex h-16 w-24 items-center justify-center ${
+          className={`btn ${
             hasText
-              ? "cursor-pointer bg-white hover:bg-teal-100"
-              : "bg-teal-100 text-teal-300"
+              ? "btn-white"
+              : "bg-teal-200 text-teal-400 hover:bg-teal-200"
           }`}
           disabled={shouldButtonDisabled}
         >

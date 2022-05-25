@@ -3,9 +3,9 @@ import dayjs from "dayjs";
 
 type ThreadsProps = {
   threads: {
-    createdAt: string;
+    created_at: string;
     title: string;
-    id: string;
+    id: number;
   }[];
 };
 const Threads = ({ threads }: ThreadsProps) => {
@@ -14,10 +14,10 @@ const Threads = ({ threads }: ThreadsProps) => {
       {threads.map((thread) => (
         <li key={thread.id} className="flex">
           <Link href={`/threads/${thread.id}`}>
-            <a className="flex flex-grow flex-col items-start bg-white px-4 py-2 hover:bg-teal-100">
+            <a className="flex flex-grow flex-col items-start bg-white px-4 py-2 transition hover:bg-teal-100">
               <span className="max-w-[60%] text-teal-900">{thread.title}</span>
               <span className="text-teal-700">
-                {dayjs(thread.createdAt)
+                {dayjs(thread.created_at)
                   .locale("ko")
                   .format("YYYY-MM-DD a hh:mm")}
               </span>

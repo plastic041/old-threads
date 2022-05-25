@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 
 import { getUsername } from "~/lib/username";
@@ -9,6 +10,7 @@ type AddThreadModalProps = {
 const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const router = useRouter();
 
   const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
@@ -32,13 +34,12 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
         username: getUsername(),
       }),
     }).then(async (data) => {
-      const id = await data.json();
-      console.log(id);
-      // Router.push(data);
+      const json = await data.json();
+      router.push(`/threads/${json.id}`);
     });
   };
 
-  if (!opened) return null;
+  if (!opened) return <div></div>;
 
   return (
     <div
@@ -56,19 +57,19 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
         }}
         onSubmit={onSubmit}
       >
-        <label className="flex flex-col text-teal-700">
-          <span>스레 제목</span>
+        <label className="flex flex-col">
+          <span className="text-teal-700">스레 제목</span>
           <input
-            className="px-2 py-1 outline outline-1 outline-teal-900 focus:outline-2"
+            className="px-2 py-1 text-teal-900 outline outline-1 outline-teal-900 focus:outline-2"
             type="text"
             value={title}
             onChange={onChangeTitle}
           />
         </label>
-        <label className="flex flex-col text-teal-700">
-          <span>스레의 첫 번째 포스트</span>
+        <label className="flex flex-col">
+          <span className="text-teal-700">스레의 첫 번째 포스트</span>
           <textarea
-            className="h-40 resize-none px-2 py-1 outline outline-1 outline-teal-900 focus:outline-2"
+            className="h-40 resize-none px-2 py-1 text-teal-900 outline outline-1 outline-teal-900 focus:outline-2"
             name="body"
             title="스레의 첫 번째 포스트"
             value={body}
@@ -78,15 +79,12 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
         <div className="flex flex-row gap-2">
           <button
             type="button"
-            className="bg-white px-4 py-2 outline outline-1 outline-teal-700"
+            className="btn btn-white"
             onClick={() => setModalState(false)}
           >
             취소
           </button>
-          <button
-            className="bg-teal-200 px-4 py-2 outline outline-1 outline-teal-200"
-            type="submit"
-          >
+          <button className="btn btn-color" type="submit">
             스레 추가
           </button>
         </div>

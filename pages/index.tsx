@@ -1,27 +1,27 @@
-import AddThreadButton from "~/components/add-thread-button";
-import AddThreadModal from "~/components/add-thread";
-import Threads from "~/components/threads";
+import Header from "~/components/header";
+import AddThreadModal from "~/components/add-thread-modal";
 import fetcher from "~/lib/fetcher";
 import useSWR from "swr";
 import { useState } from "react";
+import Categories from "~/components/categories";
 
 const Home = () => {
   const [isAddThreadModalOpen, setIsAddThreadModalOpen] = useState(false);
   const { data, error } = useSWR<
     {
-      createdAt: string;
-      title: string;
-      id: string;
+      name: string;
+      id: number;
+      Thread: Thread[];
     }[]
   >("/api/threads", fetcher);
 
   if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
+  if (!data) return null;
 
   return (
     <div>
-      <AddThreadButton setModalState={setIsAddThreadModalOpen} />
-      <Threads threads={data} />
+      <Header setModalState={setIsAddThreadModalOpen} />
+      <Categories categories={data} />
       <AddThreadModal
         opened={isAddThreadModalOpen}
         setModalState={setIsAddThreadModalOpen}

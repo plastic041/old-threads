@@ -1,4 +1,4 @@
-import Header from "~/components/header";
+import Header from "~/components/thread-title";
 import ScrollButtons from "~/components/scroll-buttons";
 import Thread from "~/components/thread";
 import fetcher from "~/lib/fetcher";

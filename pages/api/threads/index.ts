@@ -3,17 +3,24 @@ import supabase from "~/lib/supabase";
 import { makeUsername } from "~/lib/username";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  await new Promise<void>((resolve) => {
+  await new Promise<void>((resolve, reject) => {
     switch (req.method) {
       case "GET": {
         const get = async () => {
-          const { data: threads, error } = await supabase
-            .from("Thread")
-            .select("*");
+          // const { data: threads, error: threadsError } = await supabase
+          //   .from("Thread")
+          //   .select("*");
+          // if (threadsError) return res.status(500).json({ error: threadsError });
+          const { data: category, error: categoryError } = await supabase
+            .from("Category")
+            .select("name, id, Thread(id, title)");
 
-          if (error) return res.status(500).json({ error });
+          if (categoryError) {
+            res.status(500).json({ error: categoryError });
+            reject(categoryError);
+          }
 
-          res.status(200).json(threads);
+          res.status(200).json(category);
           resolve();
         };
         get();

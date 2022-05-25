@@ -1,3 +1,9 @@
+type Category = {
+  id: number;
+  name: string;
+  created_at: string;
+};
+
 type Thread = {
   id: number;
   title: string;
