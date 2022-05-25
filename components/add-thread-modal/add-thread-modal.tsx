@@ -10,7 +10,32 @@ type AddThreadModalProps = {
 const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [category, setCategory] = useState(1);
   const router = useRouter();
+
+  const { data } = useSWR<
+    {
+      name: string;
+      id: number;
+      Thread: Thread[];
+    }[]
+  >("/api/threads", fetcher) as {
+    data: {
+      name: string;
+      id: number;
+      Thread: Thread[];
+    }[];
+  };
+
+  const onClose = () => {
+    // reset form
+    setTitle("");
+    setBody("");
+    setCategory(0);
+
+    // close modal
+    setModalState(false);
+  };
 
   const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
@@ -18,6 +43,10 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
 
   const onChangeBody = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setBody(e.currentTarget.value);
+  };
+
+  const onChangeCategory = (e: ChangeEvent<HTMLSelectElement>) => {
+    setCategory(Number(e.currentTarget.value));
   };
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -32,6 +61,7 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
         title,
         body,
         username: getUsername(),
+        category,
       }),
     }).then(async (data) => {
       const json = await data.json();
@@ -48,7 +78,7 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
           ? "bg-teal-700 bg-opacity-75 opacity-100"
           : "bg-transparent bg-opacity-0 opacity-0"
       }`}
-      onClick={() => setModalState(false)}
+      onClick={onClose}
     >
       <form
         className="flex w-80 flex-col gap-4 rounded bg-white p-4 shadow-lg"
@@ -57,6 +87,20 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
         }}
         onSubmit={onSubmit}
       >
+        <label className="flex flex-col">
+          <span className="text-teal-700">카테고리</span>
+          <select
+            className="need-focus-outline px-2 py-2 text-teal-900"
+            value={1}
+            onChange={onChangeCategory}
+          >
+            {data.map((d) => (
+              <option key={d.id} value={d.id}>
+                {d.name}
+              </option>
+            ))}
+          </select>
+        </label>
         <label className="flex flex-col">
           <span className="text-teal-700">스레 제목</span>
           <input
