@@ -93,7 +93,7 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
           <span className="text-teal-700">카테고리</span>
           <select
             className="need-focus-outline px-2 py-2 text-teal-900"
-            value={1}
+            value={category}
             onChange={onChangeCategory}
           >
             {data.map((d) => (
