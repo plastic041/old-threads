@@ -20,6 +20,8 @@ const TextInput = ({ tid }: TextInputProps) => {
   const hasText = text.trim() !== "";
   const shouldButtonDisabled = !hasText || isSending;
 
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const onChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.currentTarget.value);
   };
@@ -62,6 +64,9 @@ const TextInput = ({ tid }: TextInputProps) => {
         .then(() => {
           setText("");
           setIsSending(false);
+          setTimeout(() => {
+            textareaRef.current?.focus();
+          }, 50);
         })
         .catch(() => {
           setIsError(true);
@@ -94,6 +99,7 @@ const TextInput = ({ tid }: TextInputProps) => {
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-2">
       <textarea
+        ref={textareaRef}
         className={`h-40 w-full resize-none rounded border-none bg-white p-4 outline-none outline-4 focus:outline focus:outline-2 focus:outline-teal-500 ${
           isSending ? "opacity-50" : ""
         }`}
