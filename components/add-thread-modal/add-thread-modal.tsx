@@ -1,5 +1,7 @@
 import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
+import useSWR from "swr";
+import fetcher from "~/lib/fetcher";
 
 import { getUsername } from "~/lib/username";
 
@@ -104,7 +106,7 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
         <label className="flex flex-col">
           <span className="text-teal-700">스레 제목</span>
           <input
-            className="px-2 py-1 text-teal-900 outline outline-1 outline-teal-900 focus:outline-2"
+            className="need-focus-outline px-2 py-1 text-teal-900"
             type="text"
             value={title}
             onChange={onChangeTitle}
@@ -113,19 +115,15 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
         <label className="flex flex-col">
           <span className="text-teal-700">스레의 첫 번째 포스트</span>
           <textarea
-            className="h-40 resize-none px-2 py-1 text-teal-900 outline outline-1 outline-teal-900 focus:outline-2"
+            className="need-focus-outline h-40 resize-none px-2 py-1 text-teal-900"
             name="body"
             title="스레의 첫 번째 포스트"
             value={body}
             onChange={onChangeBody}
           />
         </label>
-        <div className="flex flex-row gap-2">
-          <button
-            type="button"
-            className="btn btn-white"
-            onClick={() => setModalState(false)}
-          >
+        <div className="flex flex-row justify-end gap-2">
+          <button type="button" className="btn btn-white" onClick={onClose}>
             취소
           </button>
           <button className="btn btn-color" type="submit">

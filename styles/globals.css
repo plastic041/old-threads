@@ -15,3 +15,7 @@
 .btn-color {
   @apply bg-teal-100 text-teal-900 hover:bg-teal-200;
 }
+
+.need-focus-outline {
+  @apply outline outline-1 outline-teal-900 focus:outline-2;
+}
