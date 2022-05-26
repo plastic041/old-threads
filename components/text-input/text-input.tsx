@@ -1,7 +1,6 @@
 import Router from "next/router";
 import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
-import { getUsername } from "~/lib/username";
 import fetcher from "~/lib/fetcher";
 
 type TextInputProps = {

@@ -3,8 +3,6 @@ import { ChangeEvent, FormEvent, useState } from "react";
 import useSWR from "swr";
 import fetcher from "~/lib/fetcher";
 
-import { getUserId } from "~/lib/username";
-
 type AddThreadModalProps = {
   opened: boolean;
   setModalState: (state: boolean) => void;
@@ -62,7 +60,7 @@ const AddThreadModal = ({ opened, setModalState }: AddThreadModalProps) => {
       body: JSON.stringify({
         title,
         body,
-        username: getUserId(),
+        username: "(づ￣ 3￣)づ",
         category,
       }),
     }).then(async (data) => {
