@@ -1,4 +1,3 @@
-import TextInput from "~/components/text-input";
 import PostContainer from "./post";
 
 type ThreadContainerProps = {
