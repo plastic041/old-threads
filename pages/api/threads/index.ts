@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getIp } from "~/lib/ip";
 import supabase from "~/lib/supabase";
 import { getUsername } from "~/lib/username";
-import { getIp } from "~/lib/ip";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await new Promise<void>((resolve, reject) => {

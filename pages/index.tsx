@@ -1,10 +1,10 @@
-import Header from "~/components/header";
-import AddThreadModal from "~/components/add-thread-modal";
-import fetcher from "~/lib/fetcher";
-import useSWR from "swr";
-import { useState } from "react";
-import Categories from "~/components/categories";
 import Head from "next/head";
+import { useState } from "react";
+import useSWR from "swr";
+import AddThreadModal from "~/components/add-thread-modal";
+import Categories from "~/components/categories";
+import Header from "~/components/header";
+import fetcher from "~/lib/fetcher";
 
 const Home = () => {
   const [isAddThreadModalOpen, setIsAddThreadModalOpen] = useState(false);
