@@ -1,11 +1,11 @@
-import Header from "~/components/thread-title";
-import ScrollButtons from "~/components/scroll-buttons";
-import fetcher from "~/lib/fetcher";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import Main from "~/components/main";
 import Loader from "~/components/loader";
-import Head from "next/head";
+import Main from "~/components/main";
+import ScrollButtons from "~/components/scroll-buttons";
+import Header from "~/components/thread-title";
+import fetcher from "~/lib/fetcher";
 
 const Home = () => {
   const router = useRouter();
