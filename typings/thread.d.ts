@@ -20,7 +20,6 @@ type Post = {
   thread_id: number;
 };
 
-// type User = {
-//   id: string;
-//   joinedAt: string;
-// };
+type ThreadWithPosts = Thread & {
+  posts: Post[];
+};
