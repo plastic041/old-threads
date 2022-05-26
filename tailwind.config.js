@@ -7,7 +7,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["NeoDunggeunmo", "굴림체", "monospace"],
+        sans: ["NeoDunggeunmo", "Sawarabi Gothic", "굴림체", "monospace"],
       },
     },
   },
