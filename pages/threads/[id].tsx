@@ -1,28 +1,41 @@
 import Header from "~/components/thread-title";
 import ScrollButtons from "~/components/scroll-buttons";
-import Thread from "~/components/thread";
 import fetcher from "~/lib/fetcher";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import Main from "~/components/main";
+import Loader from "~/components/loader";
 
 const Home = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
-  const { data, error } = useSWR<
+  const { data: threadWithPosts, error } = useSWR<
     Thread & {
       posts: Post[];
     }
   >(id ? `/api/threads/${id}` : null, fetcher);
 
   if (error) return <div>failed to load</div>;
-  if (!data) return <div>loading...</div>;
+  if (!threadWithPosts)
+    return (
+      <>
+        <Header
+          thread={{
+            id: 0,
+            title: "Loading...",
+            created_at: "",
+            category_id: 0,
+          }}
+        />
+        <Loader />
+      </>
+    );
 
   return (
     <>
-      <Header thread={data} />
-      <Thread thread={data} />
-
+      <Header thread={threadWithPosts} />
+      <Main threadWithPosts={threadWithPosts} />
       <ScrollButtons />
     </>
   );
