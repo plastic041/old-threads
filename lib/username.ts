@@ -1,7 +1,16 @@
 import { hash } from "~/lib/hash";
 import { nanoid } from "nanoid";
 
-export const getUsername = () => {
+export const getIp = async () => {
+  const res = await fetch("https://jsonip.com/", {
+    mode: "cors",
+  });
+  const json: { ip: string } = await res.json();
+  const ip = json.ip;
+  return ip;
+};
+
+export const getUserId = () => {
   const localUserId = localStorage.getItem("userId");
   if (localUserId) {
     return localUserId;
@@ -11,6 +20,6 @@ export const getUsername = () => {
   return userId;
 };
 
-export const makeUsername = (userId: string, tid: number): string => {
-  return hash(`${userId}${tid}`, 8);
+export const getUsername = (ip: string, thread_id: number) => {
+  return hash(`${ip}${thread_id}`, 6);
 };
