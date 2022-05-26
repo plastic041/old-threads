@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import Main from "~/components/main";
 import Loader from "~/components/loader";
+import Head from "next/head";
 
 const Home = () => {
   const router = useRouter();
@@ -20,6 +21,9 @@ const Home = () => {
   if (!threadWithPosts)
     return (
       <>
+        <Head>
+          <title>스레입니다 (｡･∀･)ﾉﾞ</title>
+        </Head>
         <Header
           thread={{
             id: 0,
@@ -34,6 +38,9 @@ const Home = () => {
 
   return (
     <>
+      <Head>
+        <title>{threadWithPosts.title}</title>
+      </Head>
       <Header thread={threadWithPosts} />
       <Main threadWithPosts={threadWithPosts} />
       <ScrollButtons />

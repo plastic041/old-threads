@@ -4,6 +4,7 @@ import fetcher from "~/lib/fetcher";
 import useSWR from "swr";
 import { useState } from "react";
 import Categories from "~/components/categories";
+import Head from "next/head";
 
 const Home = () => {
   const [isAddThreadModalOpen, setIsAddThreadModalOpen] = useState(false);
@@ -20,6 +21,9 @@ const Home = () => {
 
   return (
     <div>
+      <Head>
+        <title>스레입니다 (｡･∀･)ﾉﾞ</title>
+      </Head>
       <Header setModalState={setIsAddThreadModalOpen} />
       <Categories categories={data} />
       <AddThreadModal
