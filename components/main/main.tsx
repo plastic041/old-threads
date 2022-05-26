@@ -1,6 +1,6 @@
+import TextInput from "./text-input";
+import Thread from "./thread";
 import Divider from "~/components/divider";
-import TextInput from "~/components/text-input";
-import Thread from "~/components/thread";
 
 type MainProps = {
   threadWithPosts: ThreadWithPosts;

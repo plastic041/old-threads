@@ -1,10 +1,10 @@
 import { ArrowLeftIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 
-type HeaderProps = {
+type ThreadTitleProps = {
   thread: Thread;
 };
-const Header = ({ thread }: HeaderProps) => {
+const ThreadTitle = ({ thread }: ThreadTitleProps) => {
   return (
     <header className="flex flex-row items-center gap-4 bg-white px-4 py-2">
       <nav>
@@ -19,4 +19,4 @@ const Header = ({ thread }: HeaderProps) => {
   );
 };
 
-export default Header;
+export default ThreadTitle;

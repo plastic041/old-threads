@@ -2,11 +2,7 @@ import dayjs from "dayjs";
 import Link from "next/link";
 
 type ThreadsProps = {
-  threads: {
-    created_at: string;
-    title: string;
-    id: number;
-  }[];
+  threads: Thread[];
 };
 const Threads = ({ threads }: ThreadsProps) => {
   return (
@@ -17,9 +13,7 @@ const Threads = ({ threads }: ThreadsProps) => {
             <a className="flex flex-grow flex-col items-start bg-white px-4 py-2 transition hover:bg-teal-100">
               <span className="max-w-[60%] text-teal-900">{thread.title}</span>
               <span className="text-teal-700">
-                {dayjs(thread.created_at)
-                  .locale("ko")
-                  .format("YYYY-MM-DD a hh:mm")}
+                {dayjs(thread.created_at).locale("ko").format("YY-MM-DD HH:mm")}
               </span>
             </a>
           </Link>

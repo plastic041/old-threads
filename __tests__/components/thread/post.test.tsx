@@ -1,5 +1,5 @@
-import PostContainer from "~/components/thread/post/post";
 import { render, screen } from "@testing-library/react";
+import PostContainer from "~/components/main/thread/post/post";
 
 describe("PostContainer", () => {
   it("renders correctly", () => {
