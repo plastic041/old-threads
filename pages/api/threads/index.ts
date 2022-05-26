@@ -9,7 +9,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       case "GET": {
         const get = async () => {
           const { data: category, error: categoryError } = await supabase
-            .from("Category")
+            .from<{
+              name: string;
+              id: number;
+              Thread: Thread[];
+            }>("Category")
             .select("name, id, Thread(*)");
 
           if (categoryError) {

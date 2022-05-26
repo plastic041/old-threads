@@ -3,11 +3,12 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import Loader from "~/components/loader";
 import Main from "~/components/main";
+import Nothing from "~/components/nothing";
 import ScrollButtons from "~/components/scroll-buttons";
 import Header from "~/components/thread-title";
 import fetcher from "~/lib/fetcher";
 
-const Home = () => {
+const IdPage = () => {
   const router = useRouter();
   const id = router.query.id as string;
 
@@ -35,6 +36,25 @@ const Home = () => {
       </>
     );
 
+  if ("threadError" in threadWithPosts) {
+    return (
+      <>
+        <Head>
+          <title>스레입니다 (｡･∀･)ﾉﾞ</title>
+        </Head>
+        <Header
+          thread={{
+            id: 0,
+            title: "404",
+            created_at: "",
+            category_id: 0,
+          }}
+        />
+        <Nothing />
+      </>
+    );
+  }
+
   return (
     <>
       <Head>
@@ -47,4 +67,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default IdPage;
