@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import supabase from "~/lib/supabase";
-import { makeUsername } from "~/lib/username";
+import { getIp, getUsername } from "~/lib/username";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await new Promise<void>((resolve, reject) => {
@@ -41,12 +41,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
           if (threadError) return res.status(500).json({ error: threadError });
 
+          const ip = await getIp();
           const { error: postError } = await supabase
             .from<Post>("Post")
             .insert({
               thread_id: thread.id,
               body: body.body,
-              username: makeUsername(body.username, thread.id),
+              username: getUsername(ip, thread.id),
               number: 1,
             });
 
