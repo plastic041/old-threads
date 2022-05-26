@@ -10,7 +10,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         const get = async () => {
           const { data: category, error: categoryError } = await supabase
             .from("Category")
-            .select("name, id, Thread(id, title)");
+            .select("name, id, Thread(*)");
 
           if (categoryError) {
             res.status(500).json({ error: categoryError });
