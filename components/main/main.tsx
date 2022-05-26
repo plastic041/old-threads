@@ -3,14 +3,12 @@ import TextInput from "~/components/text-input";
 import Thread from "~/components/thread";
 
 type MainProps = {
-  threadWithPosts: Thread & {
-    posts: Post[];
-  };
+  threadWithPosts: ThreadWithPosts;
 };
 const Main = ({ threadWithPosts }: MainProps) => {
   return (
     <main className="mx-auto flex w-full flex-col gap-4 py-2 px-2 md:w-[512px] md:px-0">
-      <Thread threadWithPost={threadWithPosts} />
+      <Thread threadWithPosts={threadWithPosts} />
       <Divider />
       <TextInput tid={threadWithPosts.id} />
     </main>

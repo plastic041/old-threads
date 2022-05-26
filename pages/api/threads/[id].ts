@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getIp } from "~/lib/ip";
 import supabase from "~/lib/supabase";
+import { getUsername } from "~/lib/username";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   await new Promise<void>((resolve) => {
@@ -46,8 +48,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           const body: {
             thread_id: number;
             body: string;
-            username: string;
           } = req.body;
+          const ip = getIp(req);
+          const username = getUsername(ip, body.thread_id);
 
           const { data: thread, error: threadError } = await supabase
             .from<
@@ -65,7 +68,11 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           // 포스트 생성
           const { data: post, error: postError } = await supabase
             .from<Post>("Post")
-            .insert({ ...body, number: thread.Post.length + 1 });
+            .insert({
+              ...body,
+              username,
+              number: thread.Post.length + 1,
+            });
 
           if (postError) return res.status(500).json({ postError });
 

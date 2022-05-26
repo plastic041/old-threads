@@ -1,7 +1,6 @@
 import Router from "next/router";
 import { ChangeEvent, FormEvent, KeyboardEvent, useRef, useState } from "react";
 import useSWR, { useSWRConfig } from "swr";
-import { getUsername, makeUsername } from "~/lib/username";
 import fetcher from "~/lib/fetcher";
 
 type TextInputProps = {
@@ -30,13 +29,15 @@ const TextInput = ({ tid }: TextInputProps) => {
     if (!hasText) return;
     const send = async () => {
       setIsSending(true);
+
+      // newThread: optimistic ui
       const newThread = {
         ...data,
         posts: [
           ...data.posts,
           {
             body: text,
-            username: makeUsername(getUsername(), tid),
+            username: "(づ￣ 3￣)づ",
             created_at: new Date().toISOString(),
             number: data.posts.length + 1,
             thread_id: tid,
@@ -48,7 +49,7 @@ const TextInput = ({ tid }: TextInputProps) => {
         Thread & {
           posts: Post[];
         }
-      >(url, newThread, false);
+      >(url, newThread, true);
 
       fetch(`/api/threads/${tid}`, {
         method: "POST",
@@ -58,7 +59,6 @@ const TextInput = ({ tid }: TextInputProps) => {
         body: JSON.stringify({
           body: text,
           thread_id: tid,
-          username: makeUsername(getUsername(), tid),
         }),
       })
         .then(() => {

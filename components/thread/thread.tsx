@@ -1,11 +1,9 @@
 import PostContainer from "./post";
 
 type ThreadContainerProps = {
-  threadWithPost: Thread & {
-    posts: Post[];
-  };
+  threadWithPosts: ThreadWithPosts;
 };
-const ThreadContainer = ({ threadWithPost: thread }: ThreadContainerProps) => {
+const ThreadContainer = ({ threadWithPosts: thread }: ThreadContainerProps) => {
   return (
     <ol className="flex list-none flex-col gap-4">
       {thread.posts.map((post) => (
