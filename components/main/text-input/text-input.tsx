@@ -49,7 +49,7 @@ const TextInput = ({ tid }: TextInputProps) => {
         Thread & {
           posts: Post[];
         }
-      >(url, newThread, true);
+      >(url, newThread, false);
 
       fetch(`/api/threads/${tid}`, {
         method: "POST",
@@ -64,6 +64,7 @@ const TextInput = ({ tid }: TextInputProps) => {
         .then(() => {
           setText("");
           setIsSending(false);
+          mutate(url);
           setTimeout(() => {
             textareaRef.current?.focus();
           }, 50);
