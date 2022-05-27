@@ -1,10 +1,19 @@
 import dayjs from "dayjs";
 import Link from "next/link";
+import { autolink } from "~/lib/autolink";
+import { escapeHtml } from "~/lib/escapeHtml";
+
+const bodyWithLinks = (p: string, maxNumber: number) => {
+  const sanitized = escapeHtml(p);
+  const autolinked = autolink(sanitized, maxNumber);
+  return autolinked;
+};
 
 type PostContainerProps = {
   post: Post;
+  maxNumber: number;
 };
-const PostContainer = ({ post }: PostContainerProps) => {
+const PostContainer = ({ post, maxNumber }: PostContainerProps) => {
   const createdAt = dayjs(post.created_at)
     .locale("ko")
     .format("YY-MM-DD HH:mm");
@@ -29,14 +38,15 @@ const PostContainer = ({ post }: PostContainerProps) => {
         </div>
       </div>
       <p
-        className="whitespace-pre-wrap text-teal-900"
+        className="post-body whitespace-pre-wrap text-teal-900"
         style={{
           wordBreak: "keep-all",
           overflowWrap: "break-word",
         }}
-      >
-        {post.body}
-      </p>
+        dangerouslySetInnerHTML={{
+          __html: bodyWithLinks(post.body, maxNumber),
+        }}
+      />
     </article>
   );
 };

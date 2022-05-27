@@ -20,3 +20,7 @@
 .need-focus-outline {
   @apply outline outline-1 outline-teal-900 focus:outline-2;
 }
+
+.post-body .number-link {
+  @apply text-blue-500 hover:underline;
+}
