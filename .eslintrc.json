@@ -5,8 +5,8 @@
     "eslint:recommended",
     "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:import/recommended",
-    "plugin:import/typescript"
+    "plugin:import/typescript",
+    "plugin:import/recommended"
   ],
   "plugins": ["@typescript-eslint", "testing-library"],
   "rules": {
@@ -17,7 +17,15 @@
       {
         "alphabetize": {
           "order": "asc"
-        }
+        },
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index"
+        ]
       }
     ]
   },
